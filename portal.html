@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DepoAtlas EYS | Güvenli Kurumsal Erişim</title>
+    <style>
+        :root {
+            --primary-color: #0f172a;
+            --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(var(--text-muted) 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            color: var(--text-main); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container { 
+            background-color: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            max-width: 550px; 
+            width: 100%; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-color), #60a5fa);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 { 
+            color: var(--primary-color); 
+            margin: 0 0 8px 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .license-wrapper {
+            margin-bottom: 25px;
+        }
+
+        .license-wrapper label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .license-box { 
+            background-color: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px;
+            padding: 15px 20px; 
+            height: 220px; 
+            overflow-y: auto; 
+            font-size: 12.5px; 
+            color: var(--text-main); 
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .license-box p { margin-top: 0; margin-bottom: 12px; }
+        .license-box p:last-child { margin-bottom: 0; }
+
+        .checkbox-group { 
+            display: flex; 
+            align-items: flex-start; 
+            margin-bottom: 25px; 
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .checkbox-group input { 
+            margin-right: 12px; 
+            margin-top: 3px; 
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .checkbox-group label { 
+            margin-bottom: 0; 
+            font-size: 13.5px; 
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .form-group { margin-bottom: 25px; }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] { 
+            width: 100%; 
+            padding: 14px 16px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 16px; 
+            font-family: monospace;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input[type="text"]:disabled {
+            background-color: #f1f5f9;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background-color: var(--accent-color); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 15px; 
+            font-weight: 600;
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+        }
+
+        button:hover:not(:disabled) { 
+            background-color: var(--accent-hover); 
+            transform: translateY(-1px);
+        }
+
+        button:disabled { 
+            background-color: #cbd5e1; 
+            cursor: not-allowed; 
+        }
+
+        .message-box {
+            display: none;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .error-message { 
+            background-color: #fef2f2;
+            color: var(--danger-color);
+            border: 1px solid #fecaca;
+        }
+
+        .success-box {
+            background-color: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+
+        .success-box p {
+            color: var(--success-color);
+            margin: 0 0 15px 0;
+        }
+
+        .success-link { 
+            display: inline-block; 
+            padding: 14px 28px; 
+            background-color: var(--success-color); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            transition: background-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .success-link:hover { background-color: #047857; }
+
+        /* Zaman Aşımı Ekranı İçin */
+        #expiredState {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        #expiredState svg {
+            width: 64px;
+            height: 64px;
+            color: var(--danger-color);
+            margin-bottom: 20px;
+        }
+
+        #expiredState h3 {
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+        
+        #expiredState p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        
+        <!-- ZAMAN AŞIMI DURUMUNDA GÖSTERİLECEK ALAN -->
+        <div id="expiredState">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3>Erişim Bağlantısı Zaman Aşımına Uğradı</h3>
+            <p>Sistem yöneticisi tarafından belirlenen kurulum ve doğrulama süresi sona ermiştir. Kurulum yapmak için lütfen kurum içi IT yetkiliniz veya depo yöneticiniz ile iletişime geçerek yeni bir onay kodu talep ediniz.</p>
+        </div>
+
+        <!-- NORMAL FORM ALANI -->
+        <div id="activeState">
+            <div class="header">
+                <h2>DepoAtlas EYS</h2>
+                <p class="subtitle">Kurumsal Mobil Dağıtım ve Kimlik Doğrulama Portalı</p>
+            </div>
+            
+            <div class="license-wrapper">
+                <label>Son Kullanıcı Lisans ve Gizlilik Sözleşmesi (EULA)</label>
+                <div class="license-box">
+                    <p><strong>MADDE 1 - KAPSAM VE AMAÇ:</strong> İşbu yazılım (DepoAtlas EYS), yalnızca kurum tarafından yetkilendirilmiş personelin, ağır vasıta yedek parça depolarındaki iç operasyonları, envanter sayımlarını ve OEM barkod tarama işlemlerini gerçekleştirmesi amacıyla özel olarak (Unlisted) geliştirilmiştir.</p>
+                    <p><strong>MADDE 2 - MÜLKİYET VE FİKRİ HAKLAR:</strong> Yazılımın tüm kaynak kodları, arayüz tasarımları ve iş akış algoritmaları kurum mülkiyetindedir. Uygulamanın tersine mühendislik (reverse engineering) işlemlerine tabi tutulması, kopyalanması veya kaynak kodlarının analiz edilmesi kesinlikle yasaktır.</p>
+                    <p><strong>MADDE 3 - YETKİSİZ ERİŞİM VE PAYLAŞIM YASAĞI:</strong> Tarafınıza iletilen "Apple App Store Özel İndirme Bağlantısı" ve "Aktivasyon Kodları" kişiye ve cihaza özeldir. Bu kurulum portalı bağlantısının veya uygulamanın kurum dışı üçüncü şahıslarla, mesajlaşma uygulamaları (WhatsApp, Telegram vb.) veya sosyal medya üzerinden paylaşılması hukuki ihlal sayılacaktır.</p>
+                    <p><strong>MADDE 4 - VERİ GİZLİLİĞİ VE DONANIM KULLANIMI:</strong> Uygulama, cihazınızın kamerasını yalnızca depo içi barkod tarama işlemleri için kullanır. Uygulama üzerinden elde edilen stok verileri, yerel veritabanlarında şifrelenerek saklanır. Kurum cihazı olmayan kişisel cihazlarda (BYOD) yapılan kurumsal verilerin ekran görüntüsünün alınması veya dışarı aktarılması yasaktır.</p>
+                    <p><strong>MADDE 5 - SÜRELİ ERİŞİM VE DENETİM:</strong> Kurulum portalı, güvenlik politikaları gereği sistem yöneticisi tarafından belirlenen tarih ve saatte otomatik olarak kendini imha edecek şekilde (Time-Bomb) programlanmıştır. Yetkisiz giriş denemeleri loglanmaktadır.</p>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreeCheckbox" onchange="toggleForm()">
+                <label for="agreeCheckbox">Yukarıdaki kurumsal kullanım sözleşmesini, gizlilik şartlarını ve veri politikalarını okudum, anladım ve kabul ediyorum.</label>
+            </div>
+
+            <div class="form-group">
+                <label for="accessCode">Tek Kullanımlık Personel Onay Kodu</label>
+                <input type="text" id="accessCode" placeholder="Örn: ATLAS-1234" disabled autocomplete="off">
+            </div>
+
+            <button id="verifyBtn" onclick="checkCode()" disabled>Sözleşmeyi Onayla ve Sistemi Doğrula</button>
+
+            <div class="message-box error-message" id="errorMsg">
+                Hatalı, süresi dolmuş veya daha önce kullanılmış bir güvenlik kodu girdiniz.
+            </div>
+
+            <div class="message-box success-box" id="result">
+                <p><strong>Kimlik Doğrulama Başarılı!</strong><br>Sistem onayı alındı. Aşağıdaki butona tıklayarak kurulumu başlatabilirsiniz.</p>
+                <a href="https://apps.apple.com/app/depoatlas-eys/id6797201035" class="success-link" target="_blank">App Store Üzerinden Yükle</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. AYARLAR BÖLÜMÜ --- //
+        
+        // Şifrenin çalışacağı SON TARİH ve SAAT. 
+        // Format: "YYYY-MM-DDTHH:MM:SS"
+        // Örneğin aşağısı 15 Ağustos 2026, Saat 23:59:59 içindir.
+        const EXPIRATION_DATE = new Date("2026-08-10T16:59:59"); 
+
+        // İzin verilen şifreler
+        let validCodes = ["826482", "ATLAS-YZX", "PERSONEL-1", "EMRE-99"];
+
+
+        // --- 2. SİSTEM MANTIĞI --- //
+
+        // Sayfa yüklendiği an tarihi kontrol et
+        window.onload = function() {
+            const currentDate = new Date();
+            
+            if (currentDate > EXPIRATION_DATE) {
+                // Eğer şuan ki zaman, bitiş zamanından büyükse (süre dolmuşsa)
+                document.getElementById('activeState').style.display = 'none';
+                document.getElementById('expiredState').style.display = 'block';
+            }
+        };
+
+        // Sözleşme onay kutusu mekanizması
+        function toggleForm() {
+            const checkbox = document.getElementById("agreeCheckbox");
+            const codeInput = document.getElementById("accessCode");
+            const btn = document.getElementById("verifyBtn");
+            const errorMsg = document.getElementById("errorMsg");
+            
+            if (checkbox.checked) {
+                codeInput.disabled = false;
+                btn.disabled = false;
+                codeInput.focus();
+            } else {
+                codeInput.disabled = true;
+                btn.disabled = true;
+                errorMsg.style.display = "none";
+                codeInput.value = "";
+            }
+        }
+
+        // Kod kontrol mekanizması
+        function checkCode() {
+            const userInput = document.getElementById("accessCode").value.trim().toUpperCase();
+            const errorMsg = document.getElementById("errorMsg");
+            const resultDiv = document.getElementById("result");
+            const btn = document.getElementById("verifyBtn");
+            const codeInput = document.getElementById("accessCode");
+            const checkbox = document.getElementById("agreeCheckbox");
+
+            if (userInput === "") return;
+
+            if (validCodes.includes(userInput)) {
+                // Şifre DOĞRU
+                errorMsg.style.display = "none";
+                resultDiv.style.display = "block";
+                
+                // Şifreyi anlık hafızadan sil (Sayfa yenilenene kadar tekrar kullanılamaz)
+                validCodes = validCodes.filter(code => code !== userInput);
+                
+                // Form elemanlarını tamamen kilitle
+                btn.disabled = true;
+                codeInput.disabled = true;
+                checkbox.disabled = true;
+                
+                btn.style.backgroundColor = "var(--success-color)";
+                btn.innerText = "Bağlantı Şifresi Çözüldü";
+            } else {
+                // Şifre YANLIŞ
+                errorMsg.style.display = "block";
+                resultDiv.style.display = "none";
+                
+                // Efekt için kutuyu hafif sars
+                codeInput.style.transform = "translateX(-5px)";
+                setTimeout(() => codeInput.style.transform = "translateX(5px)", 100);
+                setTimeout(() => codeInput.style.transform = "translateX(0)", 200);
+            }
+        }
+    </script>
+</body>
+</html>
